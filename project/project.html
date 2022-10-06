@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script> 
+    <link rel="stylesheet" href="project.css">
+    <script>
+        var randomNum; // 랜덤으로 나오는 숫자
+        var count; // 시도한 횟수
+
+        // 이벤트를 연결합니다.
+        window.onload = function () {
+            gameReset();
+        }
+
+        // 게임 초기화 함수
+        function gameReset() {
+            randomNum = Math.floor(Math.random() * 100 + 1);
+            count = 0;
+            document.getElementById("numberOfInputs").innerHTML = "";
+            document.getElementById("upAndDown").innerHTML = "";
+            document.getElementById("clearMessage").innerHTML = "";
+            document.getElementById("inputNum").value = "";
+            $(document).ready(function() {
+                $('#resetButton').css('display', 'none');
+            })
+        }
+
+        // 입력한 숫자와 랜덤 숫자를 비교해서 결과를 출력해주는 함수
+        function guess() {
+            let userNum = document.getElementById("inputNum").value;
+            if (userNum == "" || userNum > 100 || userNum < 1) {
+                alert('1 ~ 100 사이의 숫자를 입력하세요!');
+            }
+            else if (userNum == randomNum) {
+                let clearMessage = document.getElementById("clearMessage");
+                clearMessage.innerHTML = "축하드립니다~!!<br>숫자를 맞히셨습니다!!";
+
+                document.getElementById("upAndDown").innerHTML = "";
+
+                $(document).ready(function() {
+                    $('#resetButton').css('display', 'block');
+                })
+            }
+            else {
+                if (randomNum > userNum) {
+                    document.getElementById("upAndDown").innerHTML = "UP!";
+                }
+                else {
+                    document.getElementById("upAndDown").innerHTML = "DOWN~";
+                }
+            }
+            if (!(userNum == "" || userNum > 100 || userNum < 1)) {
+                count += 1;
+                let numberOfInputs = ("입력 횟수 : " + String(count) + " 번");
+                document.getElementById("numberOfInputs").innerHTML = numberOfInputs;
+            }
+        }
+
+        // '다시' 버튼을 클릭하면 입력창을 비워주는 함수
+        function inputClear() {
+            document.getElementById("inputNum").value = "";
+        }
+    </script>
+    <title>UP AND DOWN</title>
+</head>
+<body>
+    <div id="container">
+        <center>
+            <h1>숫자 맞추기</h1>
+            <p>1 ~ 100 사이의 수를 입력하세요.</p>
+            <input id="inputNum" type="text">
+            <input id="confirmButton" type="button" value="확인" onclick="guess()">
+            <input id="clearButton" type="button" value="다시" onclick="inputClear()">
+            <h2 id="numberOfInputs"></h1>
+            <h1 id="upAndDown"></h1>
+            <h1 id="clearMessage"></h1>
+            <input id="resetButton" type="button" value="다시 하기" onclick="gameReset()">
+            <audio controls="controls" autoplay loop controls>
+                <source src="냉탕에_상어.mp3" type="audio/mp3">
+            </audio>
+        </center>
+    </div>
+</body>
+</html>
